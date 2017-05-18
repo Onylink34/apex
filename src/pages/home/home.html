@@ -22,7 +22,7 @@
         <ion-card-header>
           Session N°{{y.id}} | Score : <b>{{y.score}}</b>
         </ion-card-header>
-        <ion-card-content (click)="popme(y)">
+        <ion-card-content (click)="viewdata(y)">
           <p>Le {{y.date}} de {{y.start}} à {{y.end}}</p>
         </ion-card-content>
       </ion-card>
@@ -30,5 +30,5 @@
     </ion-item>
   </ion-list>
 
-  <p>Info temp : id (<b>{{idphone}}</b>) | uuid (<b>{{uuid}}</b>)</p>
+  <!-- <p>Info temp : id (<b>{{idphone}}</b>) | uuid (<b>{{uuid}}</b>)</p> -->
 </ion-content>

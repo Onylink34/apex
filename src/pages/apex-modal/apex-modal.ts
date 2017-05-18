@@ -80,7 +80,6 @@ export class ApexModal {
       this.r_array = 0;
       this.c_array = 0;
       this.idsession = "";
-      this.remplir = this.id_phone + "INITIALIZE";
     }
 
     stopsesion(){
@@ -107,7 +106,7 @@ export class ApexModal {
       .then((db: SQLiteObject) => {
         let ids = id;
         let end = this.dateFormat.gettime();
-        this.remplir = "update : " + score;
+        this.remplir = "Update : " + score;
 
         db.executeSql('CREATE TABLE IF NOT EXISTS session(id INTEGER PRIMARY KEY AUTOINCREMENT,id_phone,score,start,end,date,globalGPS)', {})
         .then(() => console.log('Executed SQL'))
@@ -151,7 +150,7 @@ export class ApexModal {
             console.log(JSON.stringify(data));
             if(data.rows.length > 0) {
               this.idsession = data.rows.item(0).id;
-              this.remplir = "start " + this.idsession;
+              // this.remplir = "Start " + this.idsession;
             }
           }).catch(e => console.log(e));
         })
@@ -184,7 +183,10 @@ export class ApexModal {
           var latitude = this.locationTracker.getLatitude();
           var longitude = this.locationTracker.getLongitude();
           var hour = this.dateFormat.gettime();
-          this.remplir = "Add > Apex(" + apexvalue + ") - Coord ("+latitude+"/"+longitude+") ";
+          this.remplir = "Apex(" + apexvalue + ") - Coord ("+latitude+"/"+longitude+") ";
+          setTimeout(() => {
+            this.remplir = "";
+          }, 1000);
 
           db.executeSql('INSERT INTO datasession(id_session,apex,latitude,longitude,hour) VALUES(?,?,?,?,?)', [id_session,apex,latitude,longitude,hour])
           .then(() => console.log('Executed SQL'))

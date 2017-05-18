@@ -20,7 +20,6 @@ export class HomePage {
   idphone="";
   dataList = [];
   uuid="";
-  zen;
 
   //CONSTRUCTOR
   constructor(
@@ -45,62 +44,22 @@ export class HomePage {
 
     ionViewDidEnter(){
       this.initialize_Id();
-      //this.locationTracker.startTracking();
-      //this.temppre();
+      this.locationTracker.startTracking();
     }
 
     startSession(){
       let obj = {idphone: this.idphone};
       let myModal = this.modalCtrl.create(ApexModal, obj);
+      myModal.onDidDismiss(() => {
+        this.initialize_Id();
+      });
       myModal.present();
     }
 
-    // wiit(){
-    //   let loading = this.loadingCtrl.create({
-    //     content: 'Please wait...'
-    //   });
-    //
-    //   loading.present();
-    //   var go = false;
-    //   setTimeout(() => {
-    //     loading.dismiss();
-    //   }, 1000);
-    // }
-
-    popme(e){
-      // let id_session = e.id;
+    viewdata(e){
       let obj = {idphone: this.idphone, idsession: e.id};
       let myModal = this.modalCtrl.create(DataSessionModal, obj);
       myModal.present();
-    }
-
-    temppre(){
-      var toto = "gg";
-      this.dataList.push({
-        id:1,
-        id_phone: "id1",
-        start: "_1start",
-        end: "_1end",
-        date: "auj",
-        score: "3,14"
-      });
-      toto = "ff";
-      this.dataList.push({
-        id:2,
-        id_phone: "id2",
-        start: "_2start",
-        end: "_2end",
-        date: "auj",
-        score: "42"
-      });
-      this.dataList.push({
-        id:3,
-        id_phone: "id1",
-        start: "_3start",
-        end: "_3end",
-        date: "auj",
-        score: "0302"
-      });
     }
 
     initialize_Id(){
@@ -150,7 +109,6 @@ export class HomePage {
           db.executeSql('CREATE TABLE IF NOT EXISTS session(id INTEGER PRIMARY KEY AUTOINCREMENT,id_phone,score,start,end,date,globalGPS)', {})
           .then(() => console.log('Executed SQL'))
           .catch(e => console.log(e));
-
 
           db.executeSql('select * from session where id_phone = ? AND end !="" ', [idp]).then((data) => {
             console.log(JSON.stringify(data));
