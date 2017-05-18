@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>
+      Home Page
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+
+  <button ion-button block (click)="startSession()">Start Session</button>
+  <!-- <button ion-button round outline color="secondary" (click)="initialize_Id()">INITIALIZE</button>
+  <button ion-button round outline (click)="wiit()">WAIT</button> -->
+
+  <ion-list>
+    <ion-item *ngFor="let y of dataList" >
+
+      <ion-card>
+        <ion-card-header>
+          Session N°{{y.id}} | Score : <b>{{y.score}}</b>
+        </ion-card-header>
+        <ion-card-content (click)="popme(y)">
+          <p>Le {{y.date}} de {{y.start}} à {{y.end}}</p>
+        </ion-card-content>
+      </ion-card>
+
+    </ion-item>
+  </ion-list>
+
+  <p>Info temp : id (<b>{{idphone}}</b>) | uuid (<b>{{uuid}}</b>)</p>
+</ion-content>

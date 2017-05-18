@@ -1,0 +1,33 @@
+
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>DataSessionModal</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+<p>List of GPS point - Session : <b>{{id_session}}</b></p>
+
+<ion-list>
+  <ion-item *ngFor="let y of dataList" >
+
+    <ion-card>
+      <ion-card-content>
+        <p>Id: {{y.id}} - Hour: {{y.hour}} - Apex: {{y.apex}} </p>
+        <p>Coord : {{y.latitude}}/{{y.longitude}} </p>
+      </ion-card-content>
+    </ion-card>
+
+  </ion-item>
+</ion-list>
+
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <button ion-button block color="dark" (click)="stopsesion()">return</button>
+  </ion-toolbar>
+</ion-footer>

@@ -1,0 +1,25 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Apex Method</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <button ion-button block large (click)="addvalue('P')"> <ion-icon name="star-outline"></ion-icon> Apex P</button>
+  <button ion-button block large color="secondary" (click)="addvalue('R')"> <ion-icon name="star-half"></ion-icon> Apex R</button>
+  <button ion-button block large color="light" (click)="addvalue('C')"><ion-icon name="star"></ion-icon> Apex C</button>
+
+<p>test : {{remplir}} / id : {{id_phone}}</p>
+
+<!-- <button ion-button (click)="gps()"> <ion-icon name="star-outline"></ion-icon> GPS</button>
+{{locationTracker.lat}} - {{locationTracker.lng}} -->
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <button ion-button block color="dark" (click)="stopsesion()">Compute Score</button>
+  </ion-toolbar>
+</ion-footer>
