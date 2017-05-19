@@ -21,6 +21,8 @@ export class HomePage {
   dataList = [];
   uuid="";
 
+  zen;
+
   //CONSTRUCTOR
   constructor(
     public navCtrl: NavController,
@@ -45,6 +47,7 @@ export class HomePage {
     ionViewDidEnter(){
       this.initialize_Id();
       this.locationTracker.startTracking();
+      this.uuid = this.device.uuid;
     }
 
     startSession(){
@@ -66,12 +69,13 @@ export class HomePage {
       if (this.idphone != "") {
         this.checkdatasession(this.idphone);
       } else {
-        this.sqlite.create({
+        this.zen = "ok 1";
+        this.sqlite.create({ 
           name: 'data.db',
           location: 'default'
         })
         .then((db: SQLiteObject) => {
-
+        this.zen = "ok 2";
           db.executeSql('CREATE TABLE IF NOT EXISTS phone(id INTEGER PRIMARY KEY AUTOINCREMENT,uuid)', {})
           .then(() => console.log('Executed SQL'))
           .catch(e => console.log(e));
@@ -81,7 +85,6 @@ export class HomePage {
             if(data.rows.length > 0) {
               let profile = data.rows.item(0).id;
               this.idphone = data.rows.item(0).id;
-
               var val = JSON.parse(profile);
               return val;
             }

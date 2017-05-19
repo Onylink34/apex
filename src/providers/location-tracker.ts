@@ -30,6 +30,7 @@ export class LocationTracker {
         stationaryRadius: 20,
         distanceFilter: 10,
         debug: false,
+        enableHighAccuracy : true,
         interval: 2000
       };
 

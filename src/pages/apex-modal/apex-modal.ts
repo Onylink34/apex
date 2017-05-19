@@ -71,6 +71,7 @@ export class ApexModal {
             this.viewCtrl.dismiss();
           }
         } else {
+          this.remplir="";
           this.loading.dismiss();
         }
       }, 1000);
@@ -136,7 +137,7 @@ export class ApexModal {
 
     startsession(){
       if (this.id_phone == "") {
-        this.remplir = "Wait ...";
+        this.remplir = "Wait ..." + this.locationTracker.getLatitude() + " " + this.locationTracker.getLongitude();
       } else {
         this.p_array = 0;
         this.r_array = 0;
