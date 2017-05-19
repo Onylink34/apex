@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController, LoadingController, AlertController } from 'ionic-angular';
 
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 
@@ -15,7 +15,7 @@ export class ApexModal {
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private viewCtrl:ViewController,
     private locationTracker:LocationTracker, private sqlite:SQLite, private dateFormat:Dateformat,
-    public loadingCtrl: LoadingController) {
+    public loadingCtrl: LoadingController, private alertCtrl: AlertController,) {
 
     }
 
@@ -29,6 +29,7 @@ export class ApexModal {
     c_array;
 
     loading;
+    countLoading:number = 0;
 
     //FUNCTION INITIALIZE
     ionViewDidLoad(){
@@ -52,10 +53,23 @@ export class ApexModal {
     // }
 
     waitRecursif(){
+      this.countLoading++;
       console.log("wait R");
       setTimeout(() => {
         if (this.locationTracker.getLatitude() == 0) {
+          if(this.countLoading <= 8){
             this.waitRecursif();
+          }
+          else{
+            let alert = this.alertCtrl.create({
+              title: 'GPS not found',
+              subTitle: 'Try again, thank !',
+              buttons: ['Ok']
+            });
+            alert.present();
+            this.loading.dismiss();
+            this.viewCtrl.dismiss();
+          }
         } else {
           this.loading.dismiss();
         }
@@ -122,7 +136,7 @@ export class ApexModal {
 
     startsession(){
       if (this.id_phone == "") {
-        this.remplir = "pb";
+        this.remplir = "Wait ...";
       } else {
         this.p_array = 0;
         this.r_array = 0;
