@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
+
+declare var google;
 
 @IonicPage()
 @Component({
@@ -9,7 +11,8 @@ import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
   templateUrl: 'data-session-modal.html',
 })
 export class DataSessionModal {
-
+  @ViewChild('map') mapElement;
+  map : any;
   id_phone: string = this.navParams.get('idphone');
   id_session: string = this.navParams.get('idsession');
   dataList = [];
@@ -22,7 +25,29 @@ export class DataSessionModal {
     console.log('ionViewDidLoad DataSessionModal');
     this.id_session = this.navParams.get('idsession');
     this.startsession(this.id_session);
+
   }
+
+  initmap(markerlist){
+
+    var lat = markerlist[0].latitude;
+    var lng = markerlist[0].longitude;
+    var center = {lat: lat, lng: lng};
+    var map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 20,
+      center: center
+    });
+
+    var marker;
+
+    for (let variable of markerlist) {
+      var uluru = {lat: variable.latitude, lng: variable.longitude};
+      marker = new google.maps.Marker({
+        position: uluru,
+        map: map
+      });
+    }
+   }
 
   startsession(ids){
     this.sqlite.create({
@@ -49,6 +74,7 @@ export class DataSessionModal {
               hour: data.rows.item(i).hour
             });
           }
+          this.initmap(this.dataList);
         }
       }).catch(e => console.log(e));
 

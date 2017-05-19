@@ -38,6 +38,7 @@ export class HomePage {
 
     ionViewDidLoad(){
       this.initialize_Id();
+      // this.preremplissagelist();
     }
 
     ionViewWillEnter(){
@@ -62,10 +63,10 @@ export class HomePage {
       this.dataList.push({
         id:1,
         id_phone: 12222,
-        start: "start",
-        end: "end",
-        date: "date",
-        score: "score"
+        start: "start 2",
+        end: "end 2",
+        date: "date 2",
+        score: "score 2"
       });
     }
     startSession(){
@@ -142,7 +143,7 @@ export class HomePage {
                   start: data.rows.item(i).start,
                   end: data.rows.item(i).end,
                   date: data.rows.item(i).date,
-                  score: data.rows.item(i).score
+                  score: data.rows.item(i).score.toFixed(2)
                 });
               }
             }

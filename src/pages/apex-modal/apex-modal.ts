@@ -48,9 +48,9 @@ export class ApexModal {
       this.startsession();
     }
 
-    // ionViewWillLeave(){
-    //   this.locationTracker.stopTracking();
-    // }
+    ionViewWillLeave(){
+      this.stopsesion();
+    }
 
     waitRecursif(){
       this.countLoading++;
@@ -98,12 +98,18 @@ export class ApexModal {
     }
 
     stopsesion(){
-      // si session vide (pas d'apex) supprimer la session
-      let score =  this.computeScore();
-      this.updateSession(this.idsession, score);
-      this.initializeVar();
-      this.locationTracker.stopTracking();
-      this.viewCtrl.dismiss();
+      if (this.p_array==0 && this.r_array==0 && this.c_array==0) {
+        this.deleteSession(this.idsession);
+        this.initializeVar();
+        this.locationTracker.stopTracking();
+        this.viewCtrl.dismiss();
+      } else {
+        let score =  this.computeScore();
+        this.updateSession(this.idsession, score);
+        this.initializeVar();
+        this.locationTracker.stopTracking();
+        this.viewCtrl.dismiss();
+      }
     }
 
     computeScore():any{
@@ -112,6 +118,26 @@ export class ApexModal {
       let r_purcent = this.r_array * 100 / totalentity;
       let c_purcent = this.c_array * 100 / totalentity;
       return (100/3)*((1-p_purcent)+(r_purcent)+(2*c_purcent));
+    }
+
+    deleteSession(id){
+      this.sqlite.create({
+        name: 'data.db',
+        location: 'default'
+      })
+      .then((db: SQLiteObject) => {
+        let ids = id;
+
+        db.executeSql('CREATE TABLE IF NOT EXISTS session(id INTEGER PRIMARY KEY AUTOINCREMENT,id_phone,score,start,end,date,globalGPS)', {})
+        .then(() => console.log('Executed SQL'))
+        .catch(e => console.log(e));
+
+        db.executeSql('DELETE * from session WHERE id = ?', [ids])
+        .then(() => console.log('Executed SQL'))
+        .catch(e => console.log(e));
+        return true;
+      })
+      .catch(e => console.log(JSON.stringify(e)));
     }
 
     updateSession(id, score):any{
