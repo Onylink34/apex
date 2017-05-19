@@ -1,21 +1,36 @@
 <ion-header>
 
-  <ion-navbar>
+  <ion-navbar color="agroBlue">
     <ion-title>Apex Method</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding>
-  <button ion-button block large (click)="addvalue('P')"> <ion-icon name="star-outline"></ion-icon> Apex P</button>
-  <button ion-button block large color="secondary" (click)="addvalue('R')"> <ion-icon name="star-half"></ion-icon> Apex R</button>
-  <button ion-button block large color="light" (click)="addvalue('C')"><ion-icon name="star"></ion-icon> Apex C</button>
+<ion-content padding class="card-background-page">
+  <!-- <button ion-button block large (click)="addvalue('P')"> <ion-icon name="star-outline"></ion-icon> Apex P</button> -->
+  <!-- <button ion-button block class="apexbutton" (click)="addvalue('P')"> <img src="assets/img/stadeP.gif" class="apeximg"> Apex P</button>
+  <button ion-button block class="apexbutton" (click)="addvalue('R')"> <img src="assets/img/stadeR.gif" class="apeximg">Apex R</button>
+  <button ion-button block class="apexbutton" (click)="addvalue('C')"><img src="assets/img/stadeC.gif" class="apeximg"> Apex C</button> -->
 
+    <ion-card (click)="addvalue('P')">
+      <img src="assets/img/stadeP.gif" class="card-img"/>
+      <div class="card-title">APEX P</div>
+      <div class="card-subtitle">pousse active</div>
+    </ion-card>
+
+    <ion-card (click)="addvalue('R')">
+      <img src="assets/img/stadeR.gif" class="card-img"/>
+      <div class="card-title">APEX R</div>
+      <div class="card-subtitle">rameau tombée ou sec</div>
+    </ion-card>
+
+    <ion-card (click)="addvalue('C')">
+      <img src="assets/img/stadeC.gif" class="card-img"/>
+      <div class="card-title">APEX C</div>
+      <div class="card-subtitle">rameau croissance ralentie</div>
+    </ion-card>
 <p>{{remplir}}</p>
-
-<!-- <button ion-button (click)="gps()"> <ion-icon name="star-outline"></ion-icon> GPS</button>
-{{locationTracker.lat}} - {{locationTracker.lng}} -->
 </ion-content>
 
 <ion-footer>

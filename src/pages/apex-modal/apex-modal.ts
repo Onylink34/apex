@@ -98,6 +98,7 @@ export class ApexModal {
     }
 
     stopsesion(){
+      // si session vide (pas d'apex) supprimer la session
       let score =  this.computeScore();
       this.updateSession(this.idsession, score);
       this.initializeVar();
@@ -137,7 +138,8 @@ export class ApexModal {
 
     startsession(){
       if (this.id_phone == "") {
-        this.remplir = "Wait ..." + this.locationTracker.getLatitude() + " " + this.locationTracker.getLongitude();
+        // this.remplir = "Wait ..." + this.locationTracker.getLatitude().toFixed(4) + " " + this.locationTracker.getLongitude();
+        this.remplir = "Wait ...";
       } else {
         this.p_array = 0;
         this.r_array = 0;
@@ -198,7 +200,7 @@ export class ApexModal {
           var latitude = this.locationTracker.getLatitude();
           var longitude = this.locationTracker.getLongitude();
           var hour = this.dateFormat.gettime();
-          this.remplir = "Apex(" + apexvalue + ") - Coord ("+latitude+"/"+longitude+") ";
+          this.remplir = "Apex(" + apexvalue + ") - Coord ("+latitude.toFixed(4)+"/"+longitude.toFixed(4)+") ";
           setTimeout(() => {
             this.remplir = "";
           }, 1000);

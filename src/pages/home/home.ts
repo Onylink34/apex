@@ -50,6 +50,24 @@ export class HomePage {
       this.uuid = this.device.uuid;
     }
 
+    preremplissagelist(){
+      this.dataList.push({
+        id:1,
+        id_phone: 12222,
+        start: "start",
+        end: "end",
+        date: "date",
+        score: "score"
+      });
+      this.dataList.push({
+        id:1,
+        id_phone: 12222,
+        start: "start",
+        end: "end",
+        date: "date",
+        score: "score"
+      });
+    }
     startSession(){
       let obj = {idphone: this.idphone};
       let myModal = this.modalCtrl.create(ApexModal, obj);
@@ -70,7 +88,7 @@ export class HomePage {
         this.checkdatasession(this.idphone);
       } else {
         this.zen = "ok 1";
-        this.sqlite.create({ 
+        this.sqlite.create({
           name: 'data.db',
           location: 'default'
         })
