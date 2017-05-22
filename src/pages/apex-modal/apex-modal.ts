@@ -31,6 +31,8 @@ export class ApexModal {
     loading;
     countLoading:number = 0;
 
+    temp;
+
     //FUNCTION INITIALIZE
     ionViewDidLoad(){
       console.log("load modal");
@@ -114,9 +116,9 @@ export class ApexModal {
 
     computeScore():any{
       let totalentity = this.p_array + this.r_array + this.c_array;
-      let p_purcent = this.p_array * 100 / totalentity;
-      let r_purcent = this.r_array * 100 / totalentity;
-      let c_purcent = this.c_array * 100 / totalentity;
+      let p_purcent = (this.p_array * 100 / totalentity)/100;
+      let r_purcent = (this.r_array * 100 / totalentity)/100;
+      let c_purcent = (this.c_array * 100 / totalentity)/100;
       return (100/3)*((1-p_purcent)+(r_purcent)+(2*c_purcent));
     }
 

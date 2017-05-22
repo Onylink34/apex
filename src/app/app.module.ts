@@ -8,10 +8,12 @@ import { MyApp } from './app.component';
 
 //PAGES
 import { HomePage } from '../pages/home/home';
+import { Contact } from '../pages/contact/contact';
 import { About } from '../pages/about/about';
 import { ApexModal } from '../pages/apex-modal/apex-modal';
 import { DataSessionModal } from '../pages/data-session-modal/data-session-modal';
 import { Managebdd } from '../pages/managebdd/managebdd';
+import { Reporting } from '../pages/reporting/reporting';
 
 //PROVIDERS
 import { Dateformat } from '../providers/dateformat';
@@ -31,7 +33,9 @@ import { Network } from '@ionic-native/network';
     About,
     ApexModal,
     DataSessionModal,
-    Managebdd
+    Managebdd,
+    Contact,
+    Reporting
   ],
   imports: [
     BrowserModule,
@@ -44,7 +48,9 @@ import { Network } from '@ionic-native/network';
     About,
     ApexModal,
     DataSessionModal,
-    Managebdd
+    Managebdd,
+    Contact,
+    Reporting
   ],
   providers: [
     StatusBar,

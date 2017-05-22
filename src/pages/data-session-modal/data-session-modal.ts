@@ -43,28 +43,55 @@ export class DataSessionModal {
       for (let variable of markerlist) {
         var position = {lat: variable.latitude, lng: variable.longitude};
         // var apex = markerlist[0].apex;
+
+        var contentString = '<p>Session: '+variable.id_session+' - Apex: <b>'+variable.apex+'</b></p>'+
+        '<p>Lat: '+variable.latitude+' Lng : '+variable.longitude+'</p>';
+
         if (variable.apex == "R") {
           marker = new google.maps.Marker({
             position: position,
+            // label: "R",
             map: map,
-            icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
+            icon: this.pinSymbol('orange')
           });
         } else {
           if (variable.apex == "P") {
             marker = new google.maps.Marker({
               position: position,
+              // label: "P",
               map: map,
-              icon: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png'
+              icon: this.pinSymbol('green')
             });
           } else {
             marker = new google.maps.Marker({
               position: position,
               map: map,
-              icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+              // label: "C",
+              icon: this.pinSymbol('yellow')
             });
           }
         }
+        marker.infowindow = new google.maps.InfoWindow({
+            content: contentString
+        });
+
+        //add click event
+        google.maps.event.addListener(marker, 'click', function(){
+            this.infowindow.open(map,this);
+        });
       }
+    }
+
+    pinSymbol(color) {
+      return {
+        path: 'M 0,0 C -2,-20 -10,-22 -10,-30 A 10,10 0 1,1 10,-30 C 10,-22 2,-20 0,0 z',
+        // path: google.maps.SymbolPath.CIRCLE,
+        fillColor: color,
+        fillOpacity: 1,
+        strokeColor: '#000',
+        strokeWeight: 2,
+        scale: 1
+      };
     }
 
     startsession(ids){
