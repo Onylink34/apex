@@ -25,6 +25,7 @@ import { BackgroundGeolocation } from '@ionic-native/background-geolocation';
 import { Device } from '@ionic-native/device';
 import { SQLite } from '@ionic-native/sqlite';
 import { Network } from '@ionic-native/network';
+import { Vibration } from '@ionic-native/vibration';
 
 @NgModule({
   declarations: [
@@ -62,6 +63,7 @@ import { Network } from '@ionic-native/network';
     Device,
     SQLite,
     Network,
+    Vibration,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

@@ -80,7 +80,7 @@ export class HomePage {
     }
 
     viewdata(e){
-      let obj = {idphone: this.idphone, idsession: e.id};
+      let obj = {idphone: this.idphone, idsession: e.id, score:e.score};
       let myModal = this.modalCtrl.create(DataSessionModal, obj);
       myModal.present();
     }

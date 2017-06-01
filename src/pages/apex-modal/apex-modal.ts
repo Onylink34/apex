@@ -6,6 +6,8 @@ import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 import { Dateformat } from '../../providers/dateformat';
 import { LocationTracker } from '../../providers/location-tracker';
 
+import { Vibration } from '@ionic-native/vibration';
+
 @IonicPage()
 @Component({
   selector: 'page-apex-modal',
@@ -15,7 +17,8 @@ export class ApexModal {
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private viewCtrl:ViewController,
     private locationTracker:LocationTracker, private sqlite:SQLite, private dateFormat:Dateformat,
-    public loadingCtrl: LoadingController, private alertCtrl: AlertController,) {
+    public loadingCtrl: LoadingController, private alertCtrl: AlertController,
+    private vibration: Vibration) {
 
     }
 
@@ -27,7 +30,7 @@ export class ApexModal {
     p_array;
     r_array;
     c_array;
-    point = "";
+    points = "";
     loading;
     countLoading:number = 0;
 
@@ -97,7 +100,7 @@ export class ApexModal {
       this.r_array = 0;
       this.c_array = 0;
       this.idsession = "";
-      this.point = "";
+      this.points = "";
       this.temp = this.id_phone;
     }
 
@@ -217,7 +220,7 @@ export class ApexModal {
           }
         }
         var tt = this.p_array + this.r_array + this.c_array;
-        this.point = "("+tt+")";
+        this.points = "("+tt+")";
         this.sqlite.create({
           name: 'data.db',
           location: 'default'
@@ -239,6 +242,7 @@ export class ApexModal {
           db.executeSql('INSERT INTO datasession(id_session,apex,latitude,longitude,hour,serve) VALUES(?,?,?,?,?,?)', [id_session,apex,latitude,longitude,hour,-1])
           .then(() => console.log('Executed SQL'))
           .catch(e => console.log(e));
+          this.vibration.vibrate(100);
         })
         .catch(e => console.log(JSON.stringify(e)));
       } else {

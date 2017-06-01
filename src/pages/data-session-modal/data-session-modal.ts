@@ -16,6 +16,7 @@ export class DataSessionModal {
   id_phone: string = this.navParams.get('idphone');
   id_session: string = this.navParams.get('idsession');
   dataList = [];
+  score;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private sqlite : SQLite, private viewCtrl:ViewController) {
@@ -24,8 +25,8 @@ export class DataSessionModal {
     ionViewDidLoad() {
       console.log('ionViewDidLoad DataSessionModal');
       this.id_session = this.navParams.get('idsession');
+      this.score = this.navParams.get('score');
       this.startsession(this.id_session);
-
     }
 
     initmap(markerlist){
@@ -33,51 +34,88 @@ export class DataSessionModal {
       var lat = markerlist[0].latitude;
       var lng = markerlist[0].longitude;
       var center = {lat: lat, lng: lng};
+
       var map = new google.maps.Map(document.getElementById('map'), {
         zoom: 20,
         center: center
       });
 
-      var marker;
+      // for (let variable of markerlist) {
+      //
+      // }
+      var contentString = '<div id="content">'+
+      '<div id="siteNotice">'+
+      '</div>'+
+      '<h1 id="firstHeading" class="firstHeading">Session : '+this.id_session+'</h1>'+
+      '<div id="bodyContent">'+
+      '<p>Score : '+this.score+'</p>'+
+      '<p>Quoi d\'autre comme infos ? Liste des points ? Nombre de points ? Dates ? ... ? Couleur de pin en fonction du score ?</p>'+
+      '</div>'+
+      '</div>';
 
-      for (let variable of markerlist) {
-        var position = {lat: variable.latitude, lng: variable.longitude};
-        // var apex = markerlist[0].apex;
-
-        var contentString = '<p>Session: '+variable.id_session+' - Apex: <b>'+variable.apex+'</b></p>'+
-        '<p>Lat: '+variable.latitude+' Lng : '+variable.longitude+'</p>';
-
-        if (variable.apex == "R") {
-          marker = new google.maps.Marker({
-            position: position,
-            map: map,
-            icon: this.pinSymbol('orange')
-          });
-        } else {
-          if (variable.apex == "P") {
-            marker = new google.maps.Marker({
-              position: position,
-              map: map,
-              icon: this.pinSymbol('green')
-            });
-          } else {
-            marker = new google.maps.Marker({
-              position: position,
-              map: map,
-              icon: this.pinSymbol('yellow')
-            });
-          }
-        }
-        marker.infowindow = new google.maps.InfoWindow({
-            content: contentString
-        });
-
-        //add click event
-        google.maps.event.addListener(marker, 'click', function(){
-            this.infowindow.open(map,this);
-        });
-      }
+      var infowindow = new google.maps.InfoWindow({
+        content: contentString
+      });
+      var marker = new google.maps.Marker({
+        position: center,
+        map: map,
+        title: 'Session : '+this.id_session
+      });
+      marker.addListener('click', function() {
+        infowindow.open(map, marker);
+      });
     }
+
+    // initmap(markerlist){
+    //
+    //   var lat = markerlist[0].latitude;
+    //   var lng = markerlist[0].longitude;
+    //   var center = {lat: lat, lng: lng};
+    //   var map = new google.maps.Map(document.getElementById('map'), {
+    //     zoom: 20,
+    //     center: center
+    //   });
+    //
+    //   var marker;
+    //
+    //   for (let variable of markerlist) {
+    //     var position = {lat: variable.latitude, lng: variable.longitude};
+    //     // var apex = markerlist[0].apex;
+    //
+    //     var contentString = '<p>Session: '+variable.id_session+' - Apex: <b>'+variable.apex+'</b></p>'+
+    //     '<p>Lat: '+variable.latitude+' Lng : '+variable.longitude+'</p>';
+    //
+    //     if (variable.apex == "R") {
+    //       marker = new google.maps.Marker({
+    //         position: position,
+    //         map: map,
+    //         icon: this.pinSymbol('orange')
+    //       });
+    //     } else {
+    //       if (variable.apex == "P") {
+    //         marker = new google.maps.Marker({
+    //           position: position,
+    //           map: map,
+    //           icon: this.pinSymbol('green')
+    //         });
+    //       } else {
+    //         marker = new google.maps.Marker({
+    //           position: position,
+    //           map: map,
+    //           icon: this.pinSymbol('yellow')
+    //         });
+    //       }
+    //     }
+    //     marker.infowindow = new google.maps.InfoWindow({
+    //         content: contentString
+    //     });
+    //
+    //     //add click event
+    //     google.maps.event.addListener(marker, 'click', function(){
+    //         this.infowindow.open(map,this);
+    //     });
+    //   }
+    // }
 
     pinSymbol(color) {
       return {
