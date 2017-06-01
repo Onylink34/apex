@@ -27,7 +27,7 @@ export class ApexModal {
     p_array;
     r_array;
     c_array;
-
+    point = "";
     loading;
     countLoading:number = 0;
 
@@ -97,6 +97,8 @@ export class ApexModal {
       this.r_array = 0;
       this.c_array = 0;
       this.idsession = "";
+      this.point = "";
+      this.temp = this.id_phone;
     }
 
     stopsesion(){
@@ -130,7 +132,7 @@ export class ApexModal {
       .then((db: SQLiteObject) => {
         let ids = id;
 
-        db.executeSql('CREATE TABLE IF NOT EXISTS session(id INTEGER PRIMARY KEY AUTOINCREMENT,id_phone,score,start,end,date,globalGPS)', {})
+        db.executeSql('CREATE TABLE IF NOT EXISTS session(id INTEGER PRIMARY KEY AUTOINCREMENT,id_phone,score,start,end,date,globalGPS,serve)', {})
         .then(() => console.log('Executed SQL'))
         .catch(e => console.log(e));
 
@@ -152,7 +154,7 @@ export class ApexModal {
         let end = this.dateFormat.gettime();
         this.remplir = "Update : " + score;
 
-        db.executeSql('CREATE TABLE IF NOT EXISTS session(id INTEGER PRIMARY KEY AUTOINCREMENT,id_phone,score,start,end,date,globalGPS)', {})
+        db.executeSql('CREATE TABLE IF NOT EXISTS session(id INTEGER PRIMARY KEY AUTOINCREMENT,id_phone,score,start,end,date,globalGPS,serve)', {})
         .then(() => console.log('Executed SQL'))
         .catch(e => console.log(e));
 
@@ -177,7 +179,7 @@ export class ApexModal {
           location: 'default'
         })
         .then((db: SQLiteObject) => {
-          db.executeSql('CREATE TABLE IF NOT EXISTS session(id INTEGER PRIMARY KEY AUTOINCREMENT,id_phone,score,start,end,date,globalGPS)', {})
+          db.executeSql('CREATE TABLE IF NOT EXISTS session(id INTEGER PRIMARY KEY AUTOINCREMENT,id_phone,score,start,end,date,globalGPS,serve)', {})
           .then(() => console.log('Executed SQL'))
           .catch(e => console.log(e));
 
@@ -187,7 +189,7 @@ export class ApexModal {
           let date = this.dateFormat.getdate();
           let globalGPS = "";
 
-          db.executeSql('INSERT INTO session(id_phone,score,start,end,date,globalGPS) VALUES(?,?,?,?,?,?)', [this.id_phone,score,start,end,date,globalGPS])
+          db.executeSql('INSERT INTO session(id_phone,score,start,end,date,globalGPS,serve) VALUES(?,?,?,?,?,?,?)', [this.id_phone,score,start,end,date,globalGPS,-1])
           .then(() => console.log('Executed SQL'))
           .catch(e => console.log(e));
 
@@ -214,13 +216,14 @@ export class ApexModal {
             this.c_array++;
           }
         }
-
+        var tt = this.p_array + this.r_array + this.c_array;
+        this.point = "("+tt+")";
         this.sqlite.create({
           name: 'data.db',
           location: 'default'
         })
         .then((db: SQLiteObject) => {
-          db.executeSql('CREATE TABLE IF NOT EXISTS datasession(id INTEGER PRIMARY KEY AUTOINCREMENT,id_session,apex,latitude,longitude,hour)', {})
+          db.executeSql('CREATE TABLE IF NOT EXISTS datasession(id INTEGER PRIMARY KEY AUTOINCREMENT,id_session,apex,latitude,longitude,hour,serve)', {})
           .then(() => console.log('Executed SQL'))
           .catch(e => console.log(e));
           var id_session = this.idsession;
@@ -233,7 +236,7 @@ export class ApexModal {
             this.remplir = "";
           }, 1000);
 
-          db.executeSql('INSERT INTO datasession(id_session,apex,latitude,longitude,hour) VALUES(?,?,?,?,?)', [id_session,apex,latitude,longitude,hour])
+          db.executeSql('INSERT INTO datasession(id_session,apex,latitude,longitude,hour,serve) VALUES(?,?,?,?,?,?)', [id_session,apex,latitude,longitude,hour,-1])
           .then(() => console.log('Executed SQL'))
           .catch(e => console.log(e));
         })

@@ -37,7 +37,7 @@ export class HomePage {
     }
 
     ionViewDidLoad(){
-      this.initialize_Id();
+      // this.initialize_Id();
       // this.preremplissagelist();
     }
 
@@ -46,9 +46,10 @@ export class HomePage {
     }
 
     ionViewDidEnter(){
-      this.initialize_Id();
+      // this.initialize_Id();
       this.locationTracker.startTracking();
       this.uuid = this.device.uuid;
+      this.servestatus();
     }
 
     preremplissagelist(){
@@ -95,11 +96,12 @@ export class HomePage {
         })
         .then((db: SQLiteObject) => {
         this.zen = "ok 2";
-          db.executeSql('CREATE TABLE IF NOT EXISTS phone(id INTEGER PRIMARY KEY AUTOINCREMENT,uuid)', {})
+          db.executeSql('CREATE TABLE IF NOT EXISTS phone(id INTEGER PRIMARY KEY AUTOINCREMENT,uuid,serve)', {})
           .then(() => console.log('Executed SQL'))
           .catch(e => console.log(e));
 
           this.uuid = this.device.uuid;
+          this.zen = this.device.uuid;
           db.executeSql('select * from phone where uuid = ?', [this.uuid]).then((data) => {
             if(data.rows.length > 0) {
               let profile = data.rows.item(0).id;
@@ -128,11 +130,11 @@ export class HomePage {
           location: 'default'
         })
         .then((db: SQLiteObject) => {
-          db.executeSql('CREATE TABLE IF NOT EXISTS session(id INTEGER PRIMARY KEY AUTOINCREMENT,id_phone,score,start,end,date,globalGPS)', {})
+          db.executeSql('CREATE TABLE IF NOT EXISTS session(id INTEGER PRIMARY KEY AUTOINCREMENT,id_phone,score,start,end,date,globalGPS,serve)', {})
           .then(() => console.log('Executed SQL'))
           .catch(e => console.log(e));
 
-          db.executeSql('select * from session where id_phone = ? AND end !="" ', [idp]).then((data) => {
+          db.executeSql('select * from session where id_phone = ? AND end !="" ORDER BY id DESC', [idp]).then((data) => {
             console.log(JSON.stringify(data));
             if(data.rows.length > 0) {
               this.dataList = [];
@@ -162,11 +164,12 @@ export class HomePage {
         location: 'default'
       })
       .then((db: SQLiteObject) => {
-        db.executeSql('CREATE TABLE IF NOT EXISTS phone(id INTEGER PRIMARY KEY AUTOINCREMENT,uuid)', {})
+        db.executeSql('CREATE TABLE IF NOT EXISTS phone(id INTEGER PRIMARY KEY AUTOINCREMENT,uuid,serve)', {})
         .then(() => console.log('Executed SQL'))
         .catch(e => console.log(e));
 
-        db.executeSql('INSERT INTO phone(uuid) VALUES(?)', [this.uuid])
+        //-21 == numéro temporaire avant l'id du serve
+        db.executeSql('INSERT INTO phone(uuid,serve) VALUES(?,?)', [this.uuid,-1])
         .then(() => console.log('Executed SQL'))
         .catch(e => console.log(e));
 
@@ -177,4 +180,23 @@ export class HomePage {
         });
       }).catch(e => console.log(JSON.stringify(e)));
     }
+
+    servestatus(){
+      setTimeout(() => {
+        //TOdo serve
+        // var link = 'http://gbrunel.fr/ionic/api3.php';
+        //   var data = JSON.stringify({username: this.str});
+        //   this.http.post(link, data)
+        //   .subscribe(data => {
+        //     this.response = data._body;
+        //   }, error => {
+        //       console.log("Oooops!");
+        //   });
+
+        this.servestatus();
+        },4000);
+    }
+
+
+
   }

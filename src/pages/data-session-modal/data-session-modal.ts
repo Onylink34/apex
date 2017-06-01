@@ -50,7 +50,6 @@ export class DataSessionModal {
         if (variable.apex == "R") {
           marker = new google.maps.Marker({
             position: position,
-            // label: "R",
             map: map,
             icon: this.pinSymbol('orange')
           });
@@ -58,7 +57,6 @@ export class DataSessionModal {
           if (variable.apex == "P") {
             marker = new google.maps.Marker({
               position: position,
-              // label: "P",
               map: map,
               icon: this.pinSymbol('green')
             });
@@ -66,7 +64,6 @@ export class DataSessionModal {
             marker = new google.maps.Marker({
               position: position,
               map: map,
-              // label: "C",
               icon: this.pinSymbol('yellow')
             });
           }
@@ -101,7 +98,7 @@ export class DataSessionModal {
       })
       .then((db: SQLiteObject) => {
 
-        db.executeSql('CREATE TABLE IF NOT EXISTS datasession(id INTEGER PRIMARY KEY AUTOINCREMENT,id_session,apex,latitude,longitude,hour)', {})
+        db.executeSql('CREATE TABLE IF NOT EXISTS datasession(id INTEGER PRIMARY KEY AUTOINCREMENT,id_session,apex,latitude,longitude,hour,serve)', {})
         .then(() => console.log('Executed SQL'))
         .catch(e => console.log(e));
 

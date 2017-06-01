@@ -2,7 +2,7 @@
 <widget id="com.ionicframework.apex427292" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <name>ApeX</name>
   <description>An awesome apex method</description>
-  <author email="hi@ionicframework" href="http://ionicframework.com/">Ionic Framework Team</author>
+  <author email="guilhem.brunel@supagro.fr" href="http://agrotic.org/chaire/">AgroTIC Framework Team</author>
   <content src="index.html"/>
   <access origin="*"/>
   <allow-navigation href="http://ionic.local/*"/>
