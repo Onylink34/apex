@@ -26,6 +26,7 @@ import { Device } from '@ionic-native/device';
 import { SQLite } from '@ionic-native/sqlite';
 import { Network } from '@ionic-native/network';
 import { Vibration } from '@ionic-native/vibration';
+import { HttpModule } from '@angular/http';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { Vibration } from '@ionic-native/vibration';
   ],
   imports: [
     BrowserModule,
+    HttpModule,
     IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],
