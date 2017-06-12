@@ -184,7 +184,7 @@ export class HomePage {
     }
 
     servestatus(){
-      var str = "test serve";
+      // var str = "test serve";
       var response;
 
       // if (this.idphone != "") {
@@ -208,7 +208,7 @@ export class HomePage {
             this.dataList = [];
             for(var i = 0; i < data.rows.length; i++) {
               this.dataList.push({
-                id:data.rows.item(i).id,
+                username:data.rows.item(i).id,
                 id_phone: data.rows.item(i).id_phone,
                 start: data.rows.item(i).start,
                 end: data.rows.item(i).end,
@@ -218,7 +218,15 @@ export class HomePage {
               });
 
               var link = 'http://gbrunel.fr/ionic/api4.php';
-              var datatosend = JSON.stringify({username: data.rows.item(i).score});
+              var datatosend = JSON.stringify({
+                username:data.rows.item(i).id,
+                id_phone: data.rows.item(i).id_phone,
+                start: data.rows.item(i).start,
+                end: data.rows.item(i).end,
+                date: data.rows.item(i).date,
+                score: data.rows.item(i).score.toFixed(2),
+                index_var:i
+              });
                 this.http.post(link, datatosend)
                 .subscribe(data2 => {
                   response = data2.text();
@@ -226,7 +234,6 @@ export class HomePage {
                 }, error => {
                     console.log("Oooops!");
                 });
-
             }
           }
         }).catch(e => console.log(e));
