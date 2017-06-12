@@ -202,7 +202,7 @@ export class HomePage {
         .then(() => console.log('Executed SQL'))
         .catch(e => console.log(e));
 
-        db.executeSql('select * from session where not serve = -1', {}).then((data) => {
+        db.executeSql('select * from session', {}).then((data) => {
           console.log(JSON.stringify(data));
           if(data.rows.length > 0) {
             this.dataList = [];
@@ -218,7 +218,7 @@ export class HomePage {
               });
 
               var link = 'http://gbrunel.fr/ionic/api4.php';
-              var datatosend = JSON.stringify(this.dataList);
+              var datatosend = JSON.stringify({username: data.rows.item(i).score});
                 this.http.post(link, datatosend)
                 .subscribe(data2 => {
                   response = data2.text();
@@ -235,19 +235,19 @@ export class HomePage {
 
 
 
-      setTimeout(() => {
-        //TOdo serve
-        var link = 'http://gbrunel.fr/ionic/api4.php';
-          var data = JSON.stringify({username: str});
-          this.http.post(link, data)
-          .subscribe(data => {
-            response = data.text();
-            this.zen = response;
-          }, error => {
-              console.log("Oooops!");
-          });
-        this.servestatus();
-        },4000);
+      // setTimeout(() => {
+      //   //TOdo serve
+      //   var link = 'http://gbrunel.fr/ionic/api4.php';
+      //     var data = JSON.stringify({username: str});
+      //     this.http.post(link, data)
+      //     .subscribe(data => {
+      //       response = data.text();
+      //       this.zen = response;
+      //     }, error => {
+      //         console.log("Oooops!");
+      //     });
+      //   this.servestatus();
+      //   },4000);
     }
 
 
