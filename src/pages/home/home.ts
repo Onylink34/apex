@@ -52,7 +52,7 @@ export class HomePage {
       // this.initialize_Id();
       this.locationTracker.startTracking();
       this.uuid = this.device.uuid;
-      this.servestatus();
+      //this.servestatus();
     }
 
     preremplissagelist(){
@@ -184,63 +184,9 @@ export class HomePage {
     }
 
     servestatus(){
-      // var str = "test serve";
-      var response;
 
-      // if (this.idphone != "") {
-      //   if()
-      // } else {
-      //   this.initialize_Id();
-      // }
-
-      this.sqlite.create({
-        name: 'data.db',
-        location: 'default'
-      })
-      .then((db: SQLiteObject) => {
-        db.executeSql('CREATE TABLE IF NOT EXISTS session(id INTEGER PRIMARY KEY AUTOINCREMENT,id_phone,score,start,end,date,globalGPS,serve)', {})
-        .then(() => console.log('Executed SQL'))
-        .catch(e => console.log(e));
-
-        db.executeSql('select * from session', {}).then((data) => {
-          console.log(JSON.stringify(data));
-          if(data.rows.length > 0) {
-            this.dataList = [];
-            for(var i = 0; i < data.rows.length; i++) {
-              this.dataList.push({
-                username:data.rows.item(i).id,
-                id_phone: data.rows.item(i).id_phone,
-                start: data.rows.item(i).start,
-                end: data.rows.item(i).end,
-                date: data.rows.item(i).date,
-                score: data.rows.item(i).score.toFixed(2),
-                index_var:i
-              });
-
-              var link = 'http://gbrunel.fr/ionic/api4.php';
-              var datatosend = JSON.stringify({
-                username:data.rows.item(i).id,
-                id_phone: data.rows.item(i).id_phone,
-                start: data.rows.item(i).start,
-                end: data.rows.item(i).end,
-                date: data.rows.item(i).date,
-                score: data.rows.item(i).score.toFixed(2),
-                index_var:i
-              });
-                this.http.post(link, datatosend)
-                .subscribe(data2 => {
-                  response = data2.text();
-                  this.zen = response;
-                }, error => {
-                    console.log("Oooops!");
-                });
-            }
-          }
-        }).catch(e => console.log(e));
-      })
-      .catch(e => console.log(JSON.stringify(e)));
-
-
+      this.sendSessionData();
+      this.sendSession();
 
       // setTimeout(() => {
       //   //TOdo serve
@@ -257,6 +203,89 @@ export class HomePage {
       //   },4000);
     }
 
+    sendSessionData(){
+      var response;
+      this.sqlite.create({
+        name: 'data.db',
+        location: 'default'
+      })
+      .then((db: SQLiteObject) => {
+        db.executeSql('CREATE TABLE IF NOT EXISTS datasession(id INTEGER PRIMARY KEY AUTOINCREMENT,id_session,apex,latitude,longitude,hour,serve)', {})
+        .then(() => console.log('Executed SQL'))
+        .catch(e => console.log(e));
+
+        var link = 'http://gbrunel.fr/ionic/api5.php';
+
+        db.executeSql('select * from datasession', {}).then((data) => {
+          console.log(JSON.stringify(data));
+          if(data.rows.length > 0) {
+            for(var i = 0; i < data.rows.length; i++) {
+              var datatosend = JSON.stringify({
+                type:"datasession",
+                id:data.rows.item(i).id,
+                id_session: data.rows.item(i).id_session,
+                apex: data.rows.item(i).apex,
+                latitude: data.rows.item(i).latitude,
+                longitude: data.rows.item(i).longitude,
+                hour: data.rows.item(i).hour,
+                uuid:this.uuid
+              });
+                this.http.post(link, datatosend)
+                .subscribe(data2 => {
+                  response = data2.text();
+                  this.zen = response;
+                }, error => {
+                    console.log("Oooops!");
+                });
+            }
+          }
+        }).catch(e => console.log(e));
+
+      })
+      .catch(e => console.log(JSON.stringify(e)));
+    }
+
+    sendSession(){
+      var response;
+      this.sqlite.create({
+        name: 'data.db',
+        location: 'default'
+      })
+      .then((db: SQLiteObject) => {
+        db.executeSql('CREATE TABLE IF NOT EXISTS session(id INTEGER PRIMARY KEY AUTOINCREMENT,id_phone,score,start,end,date,globalGPS,serve)', {})
+        .then(() => console.log('Executed SQL'))
+        .catch(e => console.log(e));
+
+        var link = 'http://gbrunel.fr/ionic/api5.php';
+
+        db.executeSql('select * from session', {}).then((data) => {
+          console.log(JSON.stringify(data));
+          if(data.rows.length > 0) {
+            for(var i = 0; i < data.rows.length; i++) {
+              var datatosend = JSON.stringify({
+                type:"session",
+                id:data.rows.item(i).id,
+                id_phone: data.rows.item(i).id_phone,
+                start: data.rows.item(i).start,
+                end: data.rows.item(i).end,
+                date: data.rows.item(i).date,
+                score: data.rows.item(i).score,
+                uuid:this.uuid
+              });
+                this.http.post(link, datatosend)
+                .subscribe(data2 => {
+                  response = data2.text();
+                  this.zen = response;
+                }, error => {
+                    console.log("Oooops!");
+                });
+            }
+          }
+        }).catch(e => console.log(e));
+
+      })
+      .catch(e => console.log(JSON.stringify(e)));
+    }
 
 
   }
